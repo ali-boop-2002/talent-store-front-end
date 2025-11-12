@@ -40,6 +40,7 @@ interface JobsResponse {
 interface Talent {
   id: string;
   name: string;
+  onboardingComplete?: boolean;
 }
 
 const CreateContractPage = () => {
