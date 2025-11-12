@@ -15,6 +15,7 @@ import Link from "next/link";
 interface Bid {
   id: string;
   talent: {
+    id: string;
     name: string;
   };
   keysUsed: number;
