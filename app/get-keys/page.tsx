@@ -6,8 +6,6 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import KeyPaymentForm from "@/components/KeyPaymentForm";
 import { CheckCircleIcon, LoaderCircle } from "lucide-react";
-import { AnimatePresence, motion } from "framer-motion";
-import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { API_URL } from "@/lib/config";
 import {
@@ -41,12 +39,23 @@ const GetKeys = () => {
     scheduleForDowngrade?: boolean;
     subscriptionScheduledForDowngrade?: string;
   } | null>(null);
-  const router = useRouter();
   const [clientSecret, setClientSecret] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
   const [showChangePlan, setShowChangePlan] = useState<boolean>(false);
   const [status, setStatus] = useState<boolean>(false);
-  const [savedPayment, setSavedPayment] = useState();
+  const [savedPayment, setSavedPayment] = useState<
+    | {
+        defaultPaymentMethodId?: string;
+        paymentMethods?: Array<{
+          id: string;
+          brand?: string;
+          last4?: string;
+          expMonth?: number;
+          expYear?: number;
+        }>;
+      }
+    | undefined
+  >();
   const [paymentMethod, setPaymentMethod] = useState<string | null>(null);
   const [newPriceId, setNewPriceId] = useState<string | null>(null);
   const [secondPaymentMethodloading, setSecondPaymentMethodloading] =
@@ -295,13 +304,21 @@ const GetKeys = () => {
                 id={`default-payment`}
                 checked={paymentMethod === savedPayment?.defaultPaymentMethodId}
                 onChange={() => {
-                  setPaymentMethod(savedPayment?.defaultPaymentMethodId);
+                  setPaymentMethod(
+                    savedPayment?.defaultPaymentMethodId || null
+                  );
                 }}
               />
               <h2 className="font-bold">
                 {savedPayment?.paymentMethods
                   ?.find(
-                    (p: any) => p.id === savedPayment?.defaultPaymentMethodId
+                    (p: {
+                      id?: string;
+                      brand?: string;
+                      last4?: string;
+                      expMonth?: number;
+                      expYear?: number;
+                    }) => p.id === savedPayment?.defaultPaymentMethodId
                   )
                   ?.brand?.toUpperCase()}
                 {
@@ -317,7 +334,13 @@ const GetKeys = () => {
                 ending in{" "}
                 {
                   savedPayment?.paymentMethods?.find(
-                    (p: any) => p.id === savedPayment?.defaultPaymentMethodId
+                    (p: {
+                      id?: string;
+                      brand?: string;
+                      last4?: string;
+                      expMonth?: number;
+                      expYear?: number;
+                    }) => p.id === savedPayment?.defaultPaymentMethodId
                   )?.last4
                 }
               </h2>
@@ -327,13 +350,25 @@ const GetKeys = () => {
               <h2>
                 {
                   savedPayment?.paymentMethods?.find(
-                    (p: any) => p.id === savedPayment?.defaultPaymentMethodId
+                    (p: {
+                      id?: string;
+                      brand?: string;
+                      last4?: string;
+                      expMonth?: number;
+                      expYear?: number;
+                    }) => p.id === savedPayment?.defaultPaymentMethodId
                   )?.expMonth
                 }
                 /
                 {
                   savedPayment?.paymentMethods?.find(
-                    (p: any) => p.id === savedPayment?.defaultPaymentMethodId
+                    (p: {
+                      id?: string;
+                      brand?: string;
+                      last4?: string;
+                      expMonth?: number;
+                      expYear?: number;
+                    }) => p.id === savedPayment?.defaultPaymentMethodId
                   )?.expYear
                 }
               </h2>
@@ -342,34 +377,48 @@ const GetKeys = () => {
           {savedPayment?.paymentMethods?.length &&
             savedPayment?.paymentMethods
               ?.filter(
-                (card: any) => card.id !== savedPayment?.defaultPaymentMethodId
+                (card: {
+                  id?: string;
+                  brand?: string;
+                  last4?: string;
+                  expMonth?: number;
+                  expYear?: number;
+                }) => card.id !== savedPayment?.defaultPaymentMethodId
               )
-              .map((card: any, index: number) => (
-                <div key={card.id} className="grid grid-cols-12 ">
-                  <label
-                    htmlFor={`${card.id}`}
-                    className="flex items-center gap-2 cursor-pointer col-span-4 "
-                  >
-                    <input
-                      type="radio"
-                      id={`${card.id}`}
-                      checked={paymentMethod === card.id}
-                      onChange={() => {
-                        setPaymentMethod(card.id);
-                      }}
-                    />
-                    <h2>{card.brand?.toUpperCase()}</h2>
-                  </label>
-                  <div className="col-span-4  flex justify-center items-center text-center">
-                    <h2>ending in {card.last4}</h2>
+              .map(
+                (card: {
+                  id?: string;
+                  brand?: string;
+                  last4?: string;
+                  expMonth?: number;
+                  expYear?: number;
+                }) => (
+                  <div key={card.id} className="grid grid-cols-12 ">
+                    <label
+                      htmlFor={`${card.id}`}
+                      className="flex items-center gap-2 cursor-pointer col-span-4 "
+                    >
+                      <input
+                        type="radio"
+                        id={`${card.id}`}
+                        checked={paymentMethod === card.id}
+                        onChange={() => {
+                          setPaymentMethod(card.id || null);
+                        }}
+                      />
+                      <h2>{card.brand?.toUpperCase()}</h2>
+                    </label>
+                    <div className="col-span-4  flex justify-center items-center text-center">
+                      <h2>ending in {card.last4}</h2>
+                    </div>
+                    <div className="col-span-4 flex justify-center items-center text-center">
+                      <h2>
+                        {card.expMonth}/{card.expYear}
+                      </h2>
+                    </div>
                   </div>
-                  <div className="col-span-4 flex justify-center items-center text-center">
-                    <h2>
-                      {card.expMonth}/{card.expYear}
-                    </h2>
-                  </div>
-                </div>
-              ))
+                )
+              )
               .slice(0, 2)}
         </div>
         <div
@@ -390,10 +439,20 @@ const GetKeys = () => {
           )}
 
           {paymentMethod && (
-            <Button onClick={() => updateSubscriptionWithPaymentId(newPriceId)}>
+            <Button
+              onClick={() => updateSubscriptionWithPaymentId(newPriceId || "")}
+            >
               Pay with{" "}
               {savedPayment?.paymentMethods
-                ?.find((p: any) => p.id === paymentMethod)
+                ?.find(
+                  (p: {
+                    id?: string;
+                    brand?: string;
+                    last4?: string;
+                    expMonth?: number;
+                    expYear?: number;
+                  }) => p.id === paymentMethod
+                )
                 ?.brand?.toUpperCase()}
             </Button>
           )}
