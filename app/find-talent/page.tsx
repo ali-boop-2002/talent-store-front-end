@@ -12,11 +12,10 @@ import Link from "next/link";
 import { Talent } from "@/types/types";
 import { API_URL } from "@/lib/config";
 
-const FindTalent = async ({
-  searchParams,
-}: {
-  searchParams: { [key: string]: string | string[] | undefined };
+const FindTalent = async (props: {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) => {
+  const searchParams = await props.searchParams;
   const skillsParam = Array.isArray(searchParams.skills)
     ? (searchParams.skills as string[]).join(",")
     : (searchParams.skills as string) || "";
