@@ -21,6 +21,7 @@ import Link from "next/link";
 import Application from "@/components/Application";
 import { applicationAPI } from "@/lib/api/applicationApi";
 import BidsList from "@/components/BidList";
+import { Application as ApplicationType } from "@/types/types";
 
 import { getServerUser } from "@/lib/auth-server";
 import RefreshButton from "@/components/refreshButton";
@@ -288,7 +289,7 @@ const JobDetails = async (props: { params: Promise<{ id: string }> }) => {
         </Card>
         <div className="flex justify-center m-6 space-x-4">
           {job.applications.find(
-            (application: Application) => application.talentId === user?.id
+            (application: ApplicationType) => application.talentId === user?.id
           ) ? (
             <Button
               disabled
