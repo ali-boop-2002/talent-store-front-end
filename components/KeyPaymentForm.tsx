@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
+import { API_URL } from "@/lib/config";
 
 interface KeyPaymentFormProps {
   priceId: string;
@@ -79,20 +80,17 @@ export default function KeyPaymentForm({
       setMessage("Processing subscription...");
 
       // Send payment method to your backend to create the subscription
-      const response = await fetch(
-        "http://localhost:3000/api/create-subscription",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          credentials: "include",
-          body: JSON.stringify({
-            priceId,
-            paymentMethodId: paymentMethod.id,
-          }),
-        }
-      );
+      const response = await fetch(`${API_URL}/api/create-subscription`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({
+          priceId,
+          paymentMethodId: paymentMethod.id,
+        }),
+      });
 
       const data = await response.json();
 

@@ -7,6 +7,7 @@ import { Loader, ArrowDownLeft, DollarSign, ArrowUpRight } from "lucide-react";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { Contract, Job } from "@/types/types";
+import { API_URL } from "@/lib/config";
 interface Transaction {
   id: string;
   amount: number;
@@ -37,14 +38,14 @@ const Transactions = () => {
       setLoading(true);
       const response =
         user?.role === "TALENT"
-          ? await fetch(`http://localhost:3000/api/talent/orders`, {
+          ? await fetch(`${API_URL}/api/talent/orders`, {
               method: "GET",
               headers: {
                 "Content-Type": "application/json",
               },
               credentials: "include",
             })
-          : await fetch(`http://localhost:3000/api/client/orders`, {
+          : await fetch(`${API_URL}/api/client/orders`, {
               method: "GET",
               headers: {
                 "Content-Type": "application/json",

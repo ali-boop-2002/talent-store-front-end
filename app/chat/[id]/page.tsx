@@ -5,6 +5,7 @@ import { supabase } from "@/lib/supabase";
 import { useAuth } from "@/lib/useAuth";
 import { useParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
+import { API_URL } from "@/lib/config";
 
 interface Message {
   id: string;
@@ -40,7 +41,7 @@ export default function MessageThread() {
   useEffect(() => {
     const fetchMessages = async () => {
       const response = await fetch(
-        `http://localhost:3000/api/get-all-messages-in-conversation/${senderId}`,
+        `${API_URL}/api/get-all-messages-in-conversation/${senderId}`,
         {
           method: "GET",
           headers: { "Content-Type": "application/json" },
@@ -85,7 +86,7 @@ export default function MessageThread() {
     if (!newMessage.trim()) return;
 
     try {
-      await fetch(`http://localhost:3000/api/send-message/${senderId}`, {
+      await fetch(`${API_URL}/api/send-message/${senderId}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",

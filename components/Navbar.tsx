@@ -6,6 +6,7 @@ import { Button } from "./ui/button";
 import Link from "next/link";
 import { useAuth } from "@/lib/useAuth";
 import { useRouter, usePathname } from "next/navigation";
+import { API_URL } from "@/lib/config";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -29,14 +30,11 @@ const Navbar = () => {
   useEffect(() => {
     const token = async () => {
       if (user?.id) {
-        const response = await fetch(
-          `http://localhost:3000/api/user/${user?.id}`,
-          {
-            method: "GET",
-            headers: { "Content-Type": "application/json" },
-            credentials: "include",
-          }
-        );
+        const response = await fetch(`${API_URL}/api/user/${user?.id}`, {
+          method: "GET",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+        });
         const data = await response.json();
         console.log("data", data);
         setKeys(data?.user?.keyBalance);

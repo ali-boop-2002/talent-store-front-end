@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { Loader, Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
 import socket from "@/lib/socket";
+import { API_URL } from "@/lib/config";
 
 import {
   Card,
@@ -94,8 +95,8 @@ const ContractsPage = () => {
       setLoading(true);
       const endpoint =
         user.role === "CLIENT"
-          ? "http://localhost:3000/api/client"
-          : "http://localhost:3000/api/talent";
+          ? `${API_URL}/api/client`
+          : `${API_URL}/api/talent`;
 
       const response = await fetch(endpoint, {
         credentials: "include",
@@ -157,17 +158,14 @@ const ContractsPage = () => {
   const handleAccept = async (id: string) => {
     if (user?.role === "TALENT") {
       try {
-        const response = await fetch(
-          `http://localhost:3000/api/update/accepted/${id}`,
-          {
-            method: "PUT",
-            credentials: "include",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ accepted }),
-          }
-        );
+        const response = await fetch(`${API_URL}/api/update/accepted/${id}`, {
+          method: "PUT",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ accepted }),
+        });
         if (response.ok) {
           fetchContracts();
           toast.success("Contract status updated successfully");
@@ -184,7 +182,7 @@ const ContractsPage = () => {
   const handleUpdateStatus = async (id: string, status: string) => {
     if (user?.role === "CLIENT") {
       try {
-        const response = await fetch(`http://localhost:3000/api/update/${id}`, {
+        const response = await fetch(`${API_URL}/api/update/${id}`, {
           method: "PUT",
           credentials: "include",
           headers: {

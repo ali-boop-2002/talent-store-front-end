@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { AlertTriangle, CheckCircle2, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
+import { API_URL } from "@/lib/config";
 
 function StripeOnboarding() {
   const { user } = useAuth();
@@ -23,7 +24,7 @@ function StripeOnboarding() {
         setLoading(true);
         if (user?.id) {
           const res = await fetch(
-            `http://localhost:3000/api/check-onboarding-status/${user?.id}`,
+            `${API_URL}/api/check-onboarding-status/${user?.id}`,
             {
               method: "GET",
               headers: { "Content-Type": "application/json" },
@@ -51,7 +52,7 @@ function StripeOnboarding() {
   const handleCreateAccount = async () => {
     setLoading(true);
     try {
-      const res = await fetch("http://localhost:3000/api/create-account", {
+      const res = await fetch(`${API_URL}/api/create-account`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ userId: user?.id }),
@@ -72,7 +73,7 @@ function StripeOnboarding() {
   const handleFinishOnboarding = async () => {
     try {
       setLoading(true);
-      const res = await fetch("http://localhost:3000/api/create-link", {
+      const res = await fetch(`${API_URL}/api/create-link`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ userId: user?.id }),

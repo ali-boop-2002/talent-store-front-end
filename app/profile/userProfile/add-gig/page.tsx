@@ -18,6 +18,7 @@ import { useState } from "react";
 import { GigFormData } from "@/types/types";
 import { gigFormSchema } from "@/types";
 import { useAuth } from "@/lib/useAuth";
+import { API_URL } from "@/lib/config";
 import { useRouter } from "next/navigation";
 
 // Zod schema for form validation
@@ -53,7 +54,7 @@ const AddGig = () => {
     try {
       // Here you would typically send the data to your API
 
-      const addGig = await fetch(`http://localhost:3000/api/create-gig`, {
+      const addGig = await fetch(`${API_URL}/api/create-gig`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",

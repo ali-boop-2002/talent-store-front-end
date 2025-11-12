@@ -2,6 +2,7 @@
 "use client";
 import { useEffect, useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
+import { API_URL } from "./config";
 
 interface User {
   id: string;
@@ -21,7 +22,7 @@ export function useAuth() {
   useEffect(() => {
     const checkAuthStatus = async () => {
       try {
-        const response = await fetch(`http://localhost:3000/api/auth-check`, {
+        const response = await fetch(`${API_URL}/api/auth-check`, {
           credentials: "include",
         });
 
@@ -43,7 +44,7 @@ export function useAuth() {
 
   const login = async (email: string, password: string) => {
     try {
-      const response = await fetch(`http://localhost:3000/api/login`, {
+      const response = await fetch(`${API_URL}/api/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
@@ -75,7 +76,7 @@ export function useAuth() {
     skills?: string[]
   ) => {
     try {
-      const response = await fetch(`http://localhost:3000/api/register`, {
+      const response = await fetch(`${API_URL}/api/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
@@ -102,7 +103,7 @@ export function useAuth() {
 
   const logout = async () => {
     try {
-      await fetch(`http://localhost:3000/api/logout`, {
+      await fetch(`${API_URL}/api/logout`, {
         method: "POST",
         credentials: "include",
       });

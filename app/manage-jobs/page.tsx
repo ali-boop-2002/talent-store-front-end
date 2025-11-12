@@ -3,6 +3,7 @@ import { useAuth } from "@/lib/useAuth";
 import { Job } from "@/types/types";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { API_URL } from "@/lib/config";
 import {
   Card,
   CardContent,
@@ -36,7 +37,7 @@ const ManageJobs = () => {
       try {
         setLoading(true);
         const response = await fetch(
-          `http://localhost:3000/api/find-by-client-id/${user?.id}`,
+          `${API_URL}/api/find-by-client-id/${user?.id}`,
           {
             method: "GET",
             headers: {
@@ -59,24 +60,20 @@ const ManageJobs = () => {
     fetchJobs();
   }, [user, router]);
 
-
   const updateJobStatus = async (jobId: string, status: string) => {
     try {
-      const response = await fetch(
-        `http://localhost:3000/update-job-status/${jobId}`,
-        {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          credentials: "include",
+      const response = await fetch(`${API_URL}/update-job-status/${jobId}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
 
-          body: JSON.stringify({ status }),
-        }
-      );
+        body: JSON.stringify({ status }),
+      });
 
       if (response.ok) {
         // Re-fetch all jobs
         const jobsResponse = await fetch(
-          `http://localhost:3000/api/find-by-client-id/${user?.id}`,
+          `${API_URL}/api/find-by-client-id/${user?.id}`,
           {
             method: "GET",
             headers: { "Content-Type": "application/json" },

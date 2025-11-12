@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
+import { API_URL } from "@/lib/config";
 
 interface KeyPaymentFormProps {
   priceId: string;
@@ -80,7 +81,7 @@ export default function KeyPaymentFormSubscription({
 
       // Send payment method to your backend to create the subscription
       const response = await fetch(
-        "http://localhost:3000/api/update-subscription-with-payment-method-id",
+        `${API_URL}/api/update-subscription-with-payment-method-id`,
         {
           method: "POST",
           headers: {

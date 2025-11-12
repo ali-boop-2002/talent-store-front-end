@@ -24,10 +24,12 @@ import BidsList from "@/components/BidList";
 
 import { getServerUser } from "@/lib/auth-server";
 import RefreshButton from "@/components/refreshButton";
+import { API_URL } from "@/lib/config";
 
-const JobDetails = async ({ params }: { params: { id: string } }) => {
+const JobDetails = async (props: { params: Promise<{ id: string }> }) => {
+  const params = await props.params;
   const user = await getServerUser();
-  const { id } = await params;
+  const { id } = params;
 
   const { cookies } = await import("next/headers");
   const cookieStore = cookies();
@@ -35,7 +37,7 @@ const JobDetails = async ({ params }: { params: { id: string } }) => {
   // Convert cookies to a cookie string
   const cookieString = cookieStore.toString();
 
-  const response = await fetch(`http://localhost:3000/${id}`, {
+  const response = await fetch(`${API_URL}/${id}`, {
     cache: "no-store", // Always fetch fresh data
     headers: {
       Cookie: cookieString,
@@ -76,7 +78,7 @@ const JobDetails = async ({ params }: { params: { id: string } }) => {
   console.log(job);
   console.log(job.clientId, "job client id");
   const fetchClientReviews = await fetch(
-    `http://localhost:3000/api/getAllClientReviews/${job.clientId}`
+    `${API_URL}/api/getAllClientReviews/${job.clientId}`
   );
   const clientReviews = await fetchClientReviews.json();
   console.log(clientReviews, "new client reviews");
@@ -93,7 +95,7 @@ const JobDetails = async ({ params }: { params: { id: string } }) => {
     );
   }
 
-  const client = await fetch(`http://localhost:3000/api/user/${job.clientId}`, {
+  const client = await fetch(`${API_URL}/api/user/${job.clientId}`, {
     credentials: "include",
     headers: {
       Cookie: cookieString,

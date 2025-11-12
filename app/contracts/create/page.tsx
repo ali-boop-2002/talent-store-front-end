@@ -8,6 +8,7 @@ import { Loader } from "lucide-react";
 import { redirect, useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+import { API_URL } from "@/lib/config";
 import {
   Dialog,
   DialogContent,
@@ -59,14 +60,11 @@ const CreateContractPage = () => {
     const fetchJobs = async () => {
       if (!user?.id) return;
 
-      const res = await fetch(
-        `http://localhost:3000/api/find-by-client-id/${user?.id}`,
-        {
-          method: "GET",
-          headers: { "Content-Type": "application/json" },
-          credentials: "include",
-        }
-      );
+      const res = await fetch(`${API_URL}/api/find-by-client-id/${user?.id}`, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+      });
       const data: JobsResponse = await res.json();
 
       // If your API returns { jobs: [...] }, extract the jobs array
@@ -87,7 +85,7 @@ const CreateContractPage = () => {
       }
 
       const res = await fetch(
-        `http://localhost:3000/api/talent-by-job-id/${selectedJob.id}`,
+        `${API_URL}/api/talent-by-job-id/${selectedJob.id}`,
         {
           method: "GET",
           headers: { "Content-Type": "application/json" },
@@ -103,7 +101,7 @@ const CreateContractPage = () => {
 
   const onSubmit = async (data: CreateContractFormData) => {
     try {
-      const response = await fetch("http://localhost:3000/api/create", {
+      const response = await fetch(`${API_URL}/api/create`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",

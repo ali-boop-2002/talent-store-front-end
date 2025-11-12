@@ -2,6 +2,7 @@
 
 import { useAuth } from "@/lib/useAuth";
 import { useEffect, useState, useCallback } from "react";
+import { API_URL } from "@/lib/config";
 import {
   Card,
   CardContent,
@@ -50,9 +51,7 @@ const ViewGigs = () => {
     if (!user?.id) return;
 
     try {
-      const response = await fetch(
-        `http://localhost:3000/api/find-talent/${user.id}`
-      );
+      const response = await fetch(`${API_URL}/api/find-talent/${user.id}`);
       const data = await response.json();
 
       if (data.talent.gigs) {

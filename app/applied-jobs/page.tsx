@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Application } from "@/types/types";
 import { useAuth } from "@/lib/useAuth";
 import { Job } from "@/types/types";
+import { API_URL } from "@/lib/config";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import {
@@ -47,7 +48,7 @@ const AppliedJobs = () => {
     try {
       setLoading(true);
       const response = await fetch(
-        `http://localhost:3000/api/get-applications-for-talent`,
+        `${API_URL}/api/get-applications-for-talent`,
         {
           method: "GET",
           headers: {
@@ -72,7 +73,7 @@ const AppliedJobs = () => {
   const withdrawApplication = async (applicationId: string) => {
     try {
       const response = await fetch(
-        `http://localhost:3000/api/withdraw-application/${applicationId}`,
+        `${API_URL}/api/withdraw-application/${applicationId}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },

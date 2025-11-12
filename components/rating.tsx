@@ -14,6 +14,7 @@ import { Contract } from "@/types/types";
 import { useState } from "react";
 import { toast } from "sonner";
 import { Textarea } from "./ui/textarea";
+import { API_URL } from "@/lib/config";
 const SimpleRating = ({ contract }: { contract: Contract }) => {
   const [rating, setRating] = useState(0);
   const [review, setReview] = useState("");
@@ -28,7 +29,7 @@ const SimpleRating = ({ contract }: { contract: Contract }) => {
           "Please fill all the fields and rating must be greater than 0"
         );
       }
-      const response = await fetch(`http://localhost:3000/api/createReview`, {
+      const response = await fetch(`${API_URL}/api/createReview`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

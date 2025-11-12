@@ -11,9 +11,10 @@ import { Talent } from "@/types/types";
 import Link from "next/link";
 import SelectBar from "@/components/SelectBar";
 import { Separator } from "@/components/ui/separator";
+import { API_URL } from "@/lib/config";
 
 const FindTalent = async () => {
-  const response = await fetch(`http://localhost:3000/api/find-talent`, {
+  const response = await fetch(`${API_URL}/api/find-talent`, {
     cache: "no-store",
   });
 

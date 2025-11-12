@@ -13,6 +13,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useState, useEffect } from "react";
 import { useAuth } from "@/lib/useAuth";
 import Image from "next/image";
+import { API_URL } from "@/lib/config";
 import {
   Dialog,
   DialogContent,
@@ -54,7 +55,7 @@ const UserProfileForm = () => {
       if (user?.id) {
         try {
           const response = await fetch(
-            `http://localhost:3000/api/find-talent/${user.id}`,
+            `${API_URL}/api/find-talent/${user.id}`,
             { credentials: "include" }
           );
           const data = await response.json();
@@ -146,15 +147,12 @@ const UserProfileForm = () => {
       //   formData.append(`portfolio_${index}`, file);
       // });
 
-      const updateResponse = await fetch(
-        `http://localhost:3000/api/update-profile`,
-        {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          credentials: "include",
-          body: JSON.stringify(data), // Use FormData instead of JSON
-        }
-      );
+      const updateResponse = await fetch(`${API_URL}/api/update-profile`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify(data), // Use FormData instead of JSON
+      });
       if (updateResponse.ok) {
         const response = await updateResponse.json();
       }
@@ -166,7 +164,7 @@ const UserProfileForm = () => {
         });
 
         const portfolioResponse = await fetch(
-          `http://localhost:3000/api/upload-portfolio`,
+          `${API_URL}/api/upload-portfolio`,
           {
             method: "POST",
             credentials: "include",
@@ -188,19 +186,16 @@ const UserProfileForm = () => {
   };
   const handleRemoveFile = async (index: number) => {
     try {
-      const response = await fetch(
-        `http://localhost:3000/api/delete-portfolio`,
-        {
-          method: "DELETE",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            portfolioUrls: userProfileData?.portfolio?.[index],
-          }),
-        }
-      );
+      const response = await fetch(`${API_URL}/api/delete-portfolio`, {
+        method: "DELETE",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          portfolioUrls: userProfileData?.portfolio?.[index],
+        }),
+      });
       if (response.ok) {
         const responseData = await response.json();
       } else {

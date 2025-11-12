@@ -9,6 +9,7 @@ import { CheckCircleIcon, LoaderCircle } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { API_URL } from "@/lib/config";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -52,16 +53,13 @@ const GetKeys = () => {
     useState<boolean>(false);
   const fetchSubscription = async () => {
     try {
-      const response = await fetch(
-        "http://localhost:3000/api/check-subscription-status",
-        {
-          credentials: "include",
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const response = await fetch(`${API_URL}/api/check-subscription-status`, {
+        credentials: "include",
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
       const data = await response.json();
       setSubscription(data.subscription);
       console.log(data.subscription, "data.subscription");
@@ -78,19 +76,16 @@ const GetKeys = () => {
   const cancelSubscription = async () => {
     try {
       setSecondPaymentMethodloading(true);
-      const response = await fetch(
-        "http://localhost:3000/api/cancel-subscription",
-        {
-          method: "POST",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            status,
-          }),
-        }
-      );
+      const response = await fetch(`${API_URL}/api/cancel-subscription`, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          status,
+        }),
+      });
       const data = await response.json();
       console.log(data);
       if (status === true) {
@@ -110,16 +105,13 @@ const GetKeys = () => {
 
   const fetchPaymentMethods = async () => {
     try {
-      const response = await fetch(
-        "http://localhost:3000/api/get-payment-methods",
-        {
-          credentials: "include",
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const response = await fetch(`${API_URL}/api/get-payment-methods`, {
+        credentials: "include",
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
       const data = await response.json();
       setSavedPayment(data);
 
@@ -165,7 +157,7 @@ const GetKeys = () => {
     try {
       setSecondPaymentMethodloading(true);
       const response = await fetch(
-        "http://localhost:3000/api/update-subscription-with-payment-method-id",
+        `${API_URL}/api/update-subscription-with-payment-method-id`,
         {
           method: "POST",
           credentials: "include",
@@ -205,13 +197,10 @@ const GetKeys = () => {
 
   const fetchSetupIntent = async () => {
     try {
-      const response = await fetch(
-        "http://localhost:3000/api/create-setup-intent",
-        {
-          method: "POST",
-          credentials: "include",
-        }
-      );
+      const response = await fetch(`${API_URL}/api/create-setup-intent`, {
+        method: "POST",
+        credentials: "include",
+      });
       const data = await response.json();
       setClientSecret(data.clientSecret);
       console.log(clientSecret, "clientSecret");

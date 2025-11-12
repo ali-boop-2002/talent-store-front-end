@@ -3,6 +3,7 @@
 import Contacts from "@/components/Contacts";
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
+import { API_URL } from "@/lib/config";
 
 interface SendersResponse {
   senders: SenderItem[];
@@ -25,14 +26,11 @@ const ChatLayout = ({ children }: { children: React.ReactNode }) => {
   const [senders, setSenders] = useState<SendersResponse>({ senders: [] });
   useEffect(() => {
     const getAllSenders = async () => {
-      const response = await fetch(
-        `http://localhost:3000/api/get-all-senders`,
-        {
-          method: "GET",
-          headers: { "Content-Type": "application/json" },
-          credentials: "include",
-        }
-      );
+      const response = await fetch(`${API_URL}/api/get-all-senders`, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+      });
       const data = await response.json();
       if (data) {
         setSenders(data);

@@ -11,6 +11,7 @@ import { Application, Job } from "@/types/types";
 import Link from "next/link";
 import SearchBySkill from "@/components/SearchBySkill";
 import { getServerUser } from "@/lib/auth-server";
+import { API_URL } from "@/lib/config";
 
 interface SearchParams {
   page?: string;
@@ -30,7 +31,7 @@ const JobsPage = async ({ searchParams }: { searchParams: SearchParams }) => {
     const skills = skillsParam.split(" "); // ["plumbing", "tiles"]
 
     const response = await fetch(
-      `http://localhost:3000/api/find-by-skills?page=${page}&limit=${limit}`,
+      `${API_URL}/api/find-by-skills?page=${page}&limit=${limit}`,
       {
         method: "POST",
         body: JSON.stringify({ skills }),
@@ -46,9 +47,7 @@ const JobsPage = async ({ searchParams }: { searchParams: SearchParams }) => {
 
     data = await response.json();
   } else {
-    const response = await fetch(
-      `http://localhost:3000/?page=${page}&limit=${limit}`
-    );
+    const response = await fetch(`${API_URL}/?page=${page}&limit=${limit}`);
     data = await response.json();
     console.log("data", data);
   }

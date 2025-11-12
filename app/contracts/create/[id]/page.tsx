@@ -15,6 +15,7 @@ import {
 } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+import { API_URL } from "@/lib/config";
 
 import { useEffect, useState } from "react";
 // import { Talent } from "@/types/types";
@@ -75,7 +76,7 @@ const CreateContractPage = () => {
     const fetchJobs = async () => {
       if (!user?.id) return;
 
-      const res = await fetch(`http://localhost:3000/${id}`, {
+      const res = await fetch(`${API_URL}/${id}`, {
         method: "GET",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
@@ -92,14 +93,11 @@ const CreateContractPage = () => {
 
   useEffect(() => {
     const fetchTalents = async () => {
-      const res = await fetch(
-        `http://localhost:3000/api/find-talent/${talentId}`,
-        {
-          method: "GET",
-          headers: { "Content-Type": "application/json" },
-          credentials: "include",
-        }
-      );
+      const res = await fetch(`${API_URL}/api/find-talent/${talentId}`, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+      });
       const data = await res.json();
 
       setTalent(data.talent);
@@ -110,25 +108,22 @@ const CreateContractPage = () => {
   const onSubmit = async (data: CreateContractFormData) => {
     try {
       if (talent?.onboardingComplete as boolean) {
-        const res = await fetch(
-          "http://localhost:3000/api/create-payment-intent",
-          {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            credentials: "include",
-            body: JSON.stringify({
-              clientId: user?.id,
-              talentId: talent?.id,
-              amount: data.rate,
-              jobId: job?.id,
-              description: data.description,
-              status: data.status,
-              rate: data.rate,
-              paymentType: data.paymentType,
-              timeline: data.timeline,
-            }),
-          }
-        );
+        const res = await fetch(`${API_URL}/api/create-payment-intent`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+          body: JSON.stringify({
+            clientId: user?.id,
+            talentId: talent?.id,
+            amount: data.rate,
+            jobId: job?.id,
+            description: data.description,
+            status: data.status,
+            rate: data.rate,
+            paymentType: data.paymentType,
+            timeline: data.timeline,
+          }),
+        });
         const { clientSecret } = await res.json();
 
         if (res.ok) {

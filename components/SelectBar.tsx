@@ -5,6 +5,7 @@ import { Input } from "./ui/input";
 import { useRouter } from "next/navigation";
 import { LoaderCircle, Search } from "lucide-react";
 import { Skeleton } from "./ui/skeleton";
+import { API_URL } from "@/lib/config";
 
 type SelectBarData =
   | { talent?: Array<{ skills?: string[] | null }> }
@@ -30,7 +31,7 @@ const SelectBar = ({ data }: { data?: SelectBarData }) => {
       try {
         setLoading(true);
         setError(null);
-        const response = await fetch(`/api/all-skills-shuffled`, {
+        const response = await fetch(`${API_URL}/api/all-skills-shuffled`, {
           cache: "no-store",
         });
         if (!response.ok) throw new Error("Failed to load skills");

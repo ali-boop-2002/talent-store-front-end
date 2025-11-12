@@ -9,6 +9,7 @@ import { Loader } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+import { API_URL } from "@/lib/config";
 
 const PostAJob = () => {
   const [skillsInput, setSkillsInput] = useState("");
@@ -33,7 +34,7 @@ const PostAJob = () => {
       //       : [],
       // };
 
-      const response = await fetch(`http://localhost:3000/create`, {
+      const response = await fetch(`${API_URL}/create`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",

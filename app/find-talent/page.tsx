@@ -10,6 +10,7 @@ import {
 import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
 import { Talent } from "@/types/types";
+import { API_URL } from "@/lib/config";
 
 const FindTalent = async ({
   searchParams,
@@ -46,9 +47,7 @@ const FindTalent = async ({
   }
 
   const response = await fetch(
-    `http://localhost:3000/api/talents/search?skills=${encodeURIComponent(
-      skillsParam
-    )}`,
+    `${API_URL}/api/talents/search?skills=${encodeURIComponent(skillsParam)}`,
     {
       method: "GET",
       cache: "no-store",

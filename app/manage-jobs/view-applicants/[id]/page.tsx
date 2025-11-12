@@ -1,6 +1,7 @@
 "use client";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { API_URL } from "@/lib/config";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import {
   AlertDialog,
@@ -69,7 +70,7 @@ const ViewApplicants = () => {
       try {
         setLoading(true);
         const response = await fetch(
-          `http://localhost:3000/api/get-application-by-job-id/${id}`,
+          `${API_URL}/api/get-application-by-job-id/${id}`,
           {
             method: "GET",
             headers: {
@@ -105,7 +106,7 @@ const ViewApplicants = () => {
   ) => {
     try {
       const response = await fetch(
-        `http://localhost:3000/api/update-application-status/${applicationId}`,
+        `${API_URL}/api/update-application-status/${applicationId}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -123,7 +124,7 @@ const ViewApplicants = () => {
 
         // Refetch applications to get updated data
         const applicationsResponse = await fetch(
-          `http://localhost:3000/api/get-application-by-job-id/${id}`,
+          `${API_URL}/api/get-application-by-job-id/${id}`,
           {
             method: "GET",
             headers: {

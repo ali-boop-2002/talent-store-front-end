@@ -1,8 +1,9 @@
 // lib/api/applicationApi.ts
 import { Application } from "@/types/types";
+import { API_URL } from "@/lib/config";
 
 class ApplicationAPI {
-  private baseUrl = "http://localhost:3000";
+  private baseUrl = API_URL;
 
   async getByJobId(jobId: string) {
     const response = await fetch(

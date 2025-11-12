@@ -3,6 +3,7 @@
 import { useAuth } from "@/lib/useAuth";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
+import { API_URL } from "@/lib/config";
 
 interface Chat {
   sender: {
@@ -16,14 +17,11 @@ const Contacts = () => {
   const router = useRouter();
   useEffect(() => {
     const fetchChats = async () => {
-      const response = await fetch(
-        `http://localhost:3000/api/get-all-senders`,
-        {
-          method: "GET",
-          headers: { "Content-Type": "application/json" },
-          credentials: "include",
-        }
-      );
+      const response = await fetch(`${API_URL}/api/get-all-senders`, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+      });
       const data = await response.json();
 
       setChats(data.senders);
