@@ -21,7 +21,7 @@ import Link from "next/link";
 import Application from "@/components/Application";
 import { applicationAPI } from "@/lib/api/applicationApi";
 import BidsList from "@/components/BidList";
-import { Application as ApplicationType } from "@/types/types";
+import { Application as ApplicationType, TalentReview } from "@/types/types";
 
 import { getServerUser } from "@/lib/auth-server";
 import RefreshButton from "@/components/refreshButton";
@@ -333,7 +333,7 @@ const JobDetails = async (props: { params: Promise<{ id: string }> }) => {
             </div>
 
             {/* Individual Reviews */}
-            {clientReviews.reviews.map((review: Review) => (
+            {clientReviews.reviews.map((review: TalentReview) => (
               <Card key={review.id} className="bg-white">
                 <CardHeader>
                   <div className="flex justify-between items-start">
