@@ -40,7 +40,7 @@ const signUpSchema = z
         "Password must contain at least one uppercase letter, one lowercase letter, and one number"
       ),
     confirmPassword: z.string(),
-    role: z.enum(["CLIENT", "TALENT", "ADMIN"]).default("CLIENT"),
+    role: z.enum(["CLIENT", "TALENT", "ADMIN"]),
     description: z.string().optional(),
     skills: z.array(z.string()).optional(),
   })
