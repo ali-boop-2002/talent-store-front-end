@@ -288,18 +288,7 @@ const JobDetails = async (props: { params: Promise<{ id: string }> }) => {
           </CardContent>
         </Card>
         <div className="flex justify-center m-6 space-x-4">
-          {job.applications.find(
-            (application: ApplicationType) => application.talentId === user?.id
-          ) ? (
-            <Button
-              disabled
-              className="bg-gradient-to-r border-2 border-purple-500 from-purple-500 rounded-full to-blue-600 hover:from-purple-600 hover:to-blue-500 hover:cursor-pointer hover:scale-105 transition-all duration-300"
-            >
-              Already Applied
-            </Button>
-          ) : (
-            <Application jobId={job.id} jobTitle={job.title} />
-          )}
+          <Application jobId={job.id} jobTitle={job.title} />
           <RefreshButton />
         </div>
 
