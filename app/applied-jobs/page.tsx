@@ -32,7 +32,7 @@ interface ApplicationWithJob extends Application {
   id: string;
   jobId: string;
   talentId: string;
-  status: "PENDING" | "ACCEPTED" | "REJECTED";
+  status: "PENDING" | "ACCEPTED" | "REJECTED" | "WITHDRAWN";
   createdAt: string;
   updatedAt: string;
 }

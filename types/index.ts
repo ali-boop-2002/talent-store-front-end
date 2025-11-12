@@ -24,7 +24,9 @@ const applicationSchema = z.object({
   coverLetter: z.string().min(1, "Cover letter is required"),
   proposedRate: z.number().min(1, "Proposed rate is required"),
   timeline: z.string().min(1, "Timeline is required"),
-  status: z.enum(["PENDING", "ACCEPTED", "REJECTED"]).default("PENDING"),
+  status: z
+    .enum(["PENDING", "ACCEPTED", "REJECTED", "WITHDRAWN"])
+    .default("PENDING"),
   keysUsed: z.number().min(1, "Keys used is required"),
 });
 

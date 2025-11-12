@@ -102,7 +102,7 @@ const UserProfileForm = () => {
         location: userProfileData.location || "",
         Bio: userProfileData.Bio || "",
         description: userProfileData.description || "",
-        availabilty: userProfileData.availabilty || "",
+        availabilty: userProfileData.availability || "",
         skills: selectedSkills,
       });
     }
