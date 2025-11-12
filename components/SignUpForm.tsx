@@ -3,7 +3,8 @@
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { useForm } from "react-hook-form";
-import { SignUp, signUpSchema } from "@/types";
+import { signUpSchema } from "@/types";
+import { SignUp } from "@/types/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState, useEffect } from "react";
 // import { apiClient } from "@/lib/api";
@@ -29,8 +30,6 @@ const SignUpForm = () => {
 
   const onSubmit = async (data: SignUp) => {
     setIsLoading(true);
-
-
 
     try {
       await registerUser(
