@@ -94,15 +94,17 @@ const jobPostSchema = z.object({
   budget: z.number().finite().positive(),
   status: z.enum(["OPEN", "IN_PROGRESS", "COMPLETED", "CANCELLED"]),
   skills: z
-    .string()
-    .transform((val) =>
-      val.trim() === ""
-        ? []
-        : val
-            .split(",")
-            .map((s) => s.trim())
-            .filter(Boolean)
-    )
+    .union([
+      z.array(z.string()),
+      z.string().transform((val) =>
+        val.trim() === ""
+          ? []
+          : val
+              .split(",")
+              .map((s) => s.trim())
+              .filter(Boolean)
+      ),
+    ])
     .pipe(z.array(z.string())),
 });
 
