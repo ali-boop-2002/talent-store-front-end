@@ -123,11 +123,11 @@ const SelectBar = ({ data }: { data?: SelectBarData }) => {
           </div>
         ) : (
           <div className="flex flex-wrap gap-2">
-            {filteredSkills.map((skill) => {
+            {filteredSkills.map((skill, index) => {
               const active = selected.includes(skill);
               return (
                 <button
-                  key={skill}
+                  key={index}
                   type="button"
                   onClick={() => toggleSkill(skill)}
                   onKeyDown={(e) => {

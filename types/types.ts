@@ -101,6 +101,17 @@ export interface TalentReview {
   updatedAt: string;
 }
 
+export interface ClientReview extends TalentReview {
+  talent: {
+    id: string;
+    name: string;
+    email: string;
+    avatar?: string;
+    userProfilePic?: string[];
+    role: string;
+  };
+}
+
 export type Profile = z.infer<typeof userProfileSchema>;
 
 export type GigFormData = z.infer<typeof gigFormSchema>;

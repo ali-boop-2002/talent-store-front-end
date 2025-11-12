@@ -16,9 +16,11 @@ export async function middleware(request: NextRequest) {
   if (token) {
     try {
       const isValid = await verify(token, process.env.JWT_SECRET!);
+      console.log("isValid", isValid);
       if (isValid) {
         // Decode without verification (since we already verified)
         const payload = JSON.parse(atob(token.split(".")[1]));
+        console.log("payload", payload);
         decoded = payload;
         isAuthenticated = true;
       }
@@ -55,6 +57,11 @@ export async function middleware(request: NextRequest) {
     // console.log(
     //   `Redirecting unauthenticated user from ${pathname} to /sign-in`
     // );
+    console.log(
+      "Redirecting unauthenticated user from",
+      pathname,
+      "to /sign-in"
+    );
     return NextResponse.redirect(new URL("/sign-in", request.url));
   }
 

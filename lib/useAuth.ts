@@ -55,9 +55,9 @@ export function useAuth() {
         const data = await response.json();
         setUser(data.user);
         setLoading(false); // Ensure loading is false after login
+        setInitialCheck(true); // Mark auth check as complete
 
-        // Redirect after successful login
-        router.push("/");
+        // Return data for the caller to handle redirect
         return data;
       }
     } catch (error) {

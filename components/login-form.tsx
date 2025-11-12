@@ -42,13 +42,16 @@ export function LoginForm({
     setLoading(true);
     try {
       const res = await login(data.emailAddress, data.password);
+      console.log("res", res);
       toast.success("Login successful!");
 
-      res.user.role === "CLIENT" ? router.push("/") : router.push("/find-gigs");
+      // Redirect based on user role
+      const redirectPath = res.user.role === "CLIENT" ? "/" : "/find-gigs";
 
-      res.user.role === "CLIENT"
-        ? (window.location.href = "/")
-        : (window.location.href = "/find-gigs");
+      // Use window.location.href for a full page reload to ensure fresh auth state
+      setTimeout(() => {
+        window.location.href = redirectPath;
+      }, 500); // Small delay to let toast show
     } catch (error: unknown) {
       console.error("Login error:", error);
       if (error instanceof Error) {
