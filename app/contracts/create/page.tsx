@@ -380,11 +380,7 @@ const CreateContractPage = () => {
                 )}
               </div>
               {selectedJob && selectedJob?.id && selectedJob?.rate && (
-                <PaymentForm
-                  clientId={user?.id || ""}
-                  talentId={selectedTalent?.id || ""}
-                  amount={selectedJob?.rate || ""}
-                />
+                <PaymentForm />
               )}
 
               {/* Submit Button */}
