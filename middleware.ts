@@ -4,7 +4,7 @@ import type { NextRequest } from "next/server";
 import { verify } from "@tsndr/cloudflare-worker-jwt";
 
 const protectedRoutes = ["/find-gigs", "/profile", "/settings"];
-const authRoutes = ["/sign-in", "/sign-up", "/login"];
+const authRoutes = ["/sign-in", "/sign-up"];
 
 export async function middleware(request: NextRequest) {
   const token = request.cookies.get("authToken")?.value;

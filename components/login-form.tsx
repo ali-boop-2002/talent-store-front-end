@@ -50,7 +50,9 @@ export function LoginForm({
 
       // Use replace() instead of push() to prevent going back to login page
       // The small delay ensures the login function has fully completed
-      window.location.replace(redirectPath);
+      setTimeout(() => {
+        router.replace(redirectPath);
+      }, 500);
     } catch (error: unknown) {
       console.error("Login error:", error);
       if (error instanceof Error) {

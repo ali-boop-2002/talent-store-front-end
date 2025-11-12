@@ -1,23 +1,32 @@
-import { LoginForm } from "@/components/login-form";
+"use client";
 
+import { LoginForm } from "@/components/login-form";
 import img from "@/public/images/const.jpg";
+import { useAuth } from "@/lib/useAuth";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 const SignInPage = () => {
-  // const { isAuthenticated, loading } = useAuth();
+  const { user, loading, initialCheck } = useAuth();
+  const router = useRouter();
 
-  // useEffect(() => {
-  //   if (!loading && isAuthenticated) {
-  //     window.location.href = "/";
-  //   }
-  // }, [isAuthenticated, loading]);
+  useEffect(() => {
+    // If authentication check is complete and user is logged in, redirect to home
+    if (initialCheck && !loading && user) {
+      router.replace("/");
+    }
+  }, [user, loading, initialCheck, router]);
 
-  // if (loading) {
-  //   return (
-  //     <div className="min-h-screen flex items-center justify-center">
-  //       <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-600"></div>
-  //     </div>
-  //   );
-  // }
+  // Show loading state while checking auth
+  if (loading || (initialCheck && !loading && user)) {
+    return (
+      <div className="bg-muted flex min-h-svh flex-col items-center justify-center p-6 md:p-10">
+        <div className="text-center">
+          <p className="text-muted-foreground">Redirecting...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen">
