@@ -19,8 +19,8 @@ interface SearchParams {
   skills?: string;
 }
 
-const JobsPage = async ({ searchParams }: { searchParams: SearchParams }) => {
-  const params = await searchParams;
+const JobsPage = async (props: { searchParams: Promise<SearchParams> }) => {
+  const params = await props.searchParams;
   const skillsParam = params.skills || ""; // "plumbing,tiles"
   const user = await getServerUser();
   const page = parseInt(params.page || "1");
