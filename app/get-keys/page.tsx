@@ -20,6 +20,13 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import KeyPaymentFormSubscription from "@/components/KeyPaymentForSubscription";
+
+// Extend Stripe Elements options to include paymentMethodCreation
+type StripeElementsOptionsExtended = {
+  clientSecret: string;
+  paymentMethodCreation?: "automatic" | "manual";
+};
+
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
 );
@@ -461,7 +468,12 @@ const GetKeys = () => {
           <div className="container mx-auto px-4 py-12 min-h-screen">
             <Elements
               stripe={stripePromise}
-              options={{ clientSecret, paymentMethodCreation: "manual" }}
+              options={
+                {
+                  clientSecret,
+                  paymentMethodCreation: "manual",
+                } as StripeElementsOptionsExtended
+              }
             >
               <KeyPaymentFormSubscription
                 priceId={newPriceId || ""}
@@ -1050,7 +1062,12 @@ const GetKeys = () => {
           </h1>
           <Elements
             stripe={stripePromise}
-            options={{ clientSecret, paymentMethodCreation: "manual" }}
+            options={
+              {
+                clientSecret,
+                paymentMethodCreation: "manual",
+              } as StripeElementsOptionsExtended
+            }
           >
             <KeyPaymentForm
               priceId={selectedPlan?.priceId || ""}
