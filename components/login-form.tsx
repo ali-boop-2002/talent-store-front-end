@@ -48,10 +48,14 @@ export function LoginForm({
       // Redirect based on user role
       const redirectPath = res.user.role === "CLIENT" ? "/" : "/find-gigs";
 
-      // Use window.location.href for a full page reload to ensure fresh auth state
+      // Use router.push for client-side navigation, then full page refresh
+      // This ensures middleware recognizes the cookie and the auth state is fresh
+      router.push(redirectPath);
+
+      // Full page reload after a small delay to ensure redirect completes
       setTimeout(() => {
-        window.location.href = redirectPath;
-      }, 500); // Small delay to let toast show
+        window.location.reload();
+      }, 300);
     } catch (error: unknown) {
       console.error("Login error:", error);
       if (error instanceof Error) {
