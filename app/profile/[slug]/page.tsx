@@ -3,8 +3,8 @@ export const revalidate = 0;
 import UserProfilePage from "@/components/UserProfilePage";
 import { API_URL } from "@/lib/config";
 
-const ProfilePage = async ({ params }: { params: { slug: string } }) => {
-  const { slug } = await params;
+const ProfilePage = async (props: { params: Promise<{ slug: string }> }) => {
+  const { slug } = await props.params;
 
   const response = await fetch(`${API_URL}/api/find-talent/${slug}`, {
     cache: "no-store",
