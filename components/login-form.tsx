@@ -48,14 +48,11 @@ export function LoginForm({
       // Redirect based on user role
       const redirectPath = res.user.role === "CLIENT" ? "/" : "/find-gigs";
 
-      // Use router.push for client-side navigation, then full page refresh
-      // This ensures middleware recognizes the cookie and the auth state is fresh
-      router.push(redirectPath);
-
-      // Full page reload after a small delay to ensure redirect completes
+      // Use replace() instead of push() to prevent going back to login page
+      // The small delay ensures the login function has fully completed
       setTimeout(() => {
-        window.location.reload();
-      }, 300);
+        router.replace(redirectPath);
+      }, 500);
     } catch (error: unknown) {
       console.error("Login error:", error);
       if (error instanceof Error) {
